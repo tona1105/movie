@@ -8,7 +8,7 @@
                             <b-row no-gutters style="background-color: #111;">
                                 <b-col md="6" class="h-75">
                                     <b-card-img :src="movie.thumb_url" class="rounded-0 h-100"></b-card-img>
-                                    <router-link :to="{name: 'movie-watch', params: {slug: slug, ep: 1}}" class="button">Xem ngay</router-link>
+                                    <router-link :to="{name: 'movie-watch', params: {slug: slug, ep: '1'}}" class="button">Xem ngay</router-link>
                                 </b-col>
                                 <b-col md="6" class="text-light">
                                     <h3 class="my-0">{{ movie.name }}</h3>
@@ -38,10 +38,18 @@
                             </b-row>
                         </b-card>
                     </div>
-                    <div class="text-light">
+                    <!-- Movie's content -->
+                    <div class="text-light mb-3" >
                         <h4 class="my-0 text-danger">Nội dung chi tiết</h4>
                         <h4>{{ movie.name }}</h4>
-                        <span>{{ movie.content }}</span>
+                        <span>{{ removePTag(movie.content) }}</span>
+                    </div>
+                     <!-- List movie user may like to watch -->
+                     <div class="row">
+                        <h3 class="my-0 text-danger">Có thể bạn sẽ thích</h3>
+                        <div v-for="item in randomListNewMovie" :key="item.slug" class="col-3 my-2">
+                            <ItemMovie :movie="item" />
+                        </div>
                     </div>
                 </div>
                 <div class="col-3">
@@ -54,6 +62,7 @@
 
 <script>
 import axios from 'axios';
+import ItemMovie from '@/components/ItemMovie.vue'
 import PreMovie from '@/components/PreMovie.vue';
 import DefaultLayout from '@/components/Default-layout.vue'
 export default {
@@ -65,7 +74,8 @@ export default {
     },
     components: {
         DefaultLayout,
-        PreMovie
+        PreMovie,
+        ItemMovie
     },
     data() {
         return {
@@ -73,11 +83,18 @@ export default {
             category: [],
             director: [],
             actor: [],
+            listNewMovie: [],
         }
     },
-    
+    computed: {
+        randomListNewMovie() {
+            const shuffledList = this.listNewMovie.sort(() => Math.random() - 0.5);
+            return shuffledList
+        }
+    },
     async created() {
         await this.getMovieBySlug()
+        await this.getNewMovie()
     },
     watch: {
         slug(newSlug) {
@@ -86,6 +103,12 @@ export default {
     }
   },
     methods: {
+        removePTag(string) {
+            if (string) {
+                return string.replace(/<\/?p>/g, '');
+            }
+            return '';
+        },
         async getMovieBySlug() {
             try {
                 const response = await axios.get(`https://ophim1.com/phim/${this.slug}`)
@@ -93,12 +116,20 @@ export default {
                 this.category = this.movie.category
                 this.director = this.movie.director
                 this.actor = this.movie.actor
-                console.log(this.listEpisodes);
+                
             }
             catch (e) {
                 console.log(e);
             }
         },
+        async getNewMovie() {
+            const response = await axios.get(`https://ophim1.com/danh-sach/phim-moi-cap-nhat?page=4`)
+            const response2 = await axios.get(`https://ophim1.com/danh-sach/phim-moi-cap-nhat?page=8`)
+            this.listNewMovie.push(...response.data.items)
+            this.listNewMovie.push(...response2.data.items)
+
+
+        }
     }
 }
 </script>

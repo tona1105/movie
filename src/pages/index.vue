@@ -24,24 +24,36 @@
                             <div class="col-9">
                                 <h3 class="text-light mt-2">PHIM BỘ</h3>
                             </div>
-                            <div class="col-3" @click="navigateToSeriesMovie">
-                                <h3 class="text-light mt-2">Xem thêm</h3>
-                            </div>
+                            <router-link :to="{name: 'movie-list', params: {slug:'phim-bo', name:'phim bộ'}}" class="col-3" style="text-decoration: none;">
+                                <h3 class="text-light mt-2" style="text-align: end">Xem thêm</h3>
+                            </router-link>
                             <div v-for="(item, index) in listSeriesMovie" :key="index" class="col-3 text-light mb-4 ">
                                 <ItemMovie :movie="item" />
                             </div>
                         </div>
                         <div class="row">
-                            <h3 class="text-light mt-2">PHIM LẺ</h3>
+                            <div class="col-9">
+                                <h3 class="text-light mt-2">PHIM LẺ</h3>
+                            </div>
+                            <router-link :to="{name: 'movie-list', params: {slug:'phim-le', name:'phim lẻ'}}" class="col-3" style="text-decoration: none;">
+                                <h3 class="text-light mt-2" style="text-align: end">Xem thêm</h3>
+                            </router-link>
                             <div v-for="(item, index) in listSingleMovie" :key="index" class="col-3 text-light mb-4 ">
                                 <ItemMovie :movie="item" />
                             </div>
+                           
                         </div>
                         <div class="row">
-                            <h3 class="text-light mt-2">PHIM HOẠT HÌNH</h3>
-                            <div v-for="(item, index) in listSingleMovie" :key="index" class="col-3 text-light  ">
+                            <div class="col-9">
+                                <h3 class="text-light mt-2">PHIM HOẠT HÌNH</h3>
+                            </div>
+                            <router-link :to="{name: 'movie-list', params: {slug:'hoat-hinh', name:'phim hoạt hình'}}" class="col-3" style="text-decoration: none;">
+                                <h3 class="text-light mt-2" style="text-align:end">Xem thêm</h3>
+                            </router-link>
+                            <div v-for="(item, index) in listCartoon" :key="index" class="col-3 text-light  ">
                                 <ItemMovie :movie="item" />
                             </div>
+                            
                         </div>
                         <router-view></router-view>
                     </div>
@@ -137,9 +149,6 @@ export default {
         async getListCartoon() {
             const response = await axios.get(`https://ophim6.cc/_next/data/bMep5VbIGtkpBRqoaRU-z/danh-sach/hoat-hinh.json?slug=hoat-hinh`)
             this.listCartoon = response.data.pageProps.data.items
-        },
-        navigateToSeriesMovie() {
-            this.$router.push('/seriesMovie');
         },
     }
 }

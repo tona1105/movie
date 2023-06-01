@@ -1,32 +1,41 @@
 <template>
     <div>
-        <b-navbar class="header-bg">
+        <b-navbar class="navbar header-bg navbar-light navbar-expand header-bg">
             <b-navbar-nav class="mx-5">
                 <b-navbar-brand href="/">
                     <img src="https://placekitten.com/g/30/30" class="d-inline-block align-top" alt="Kitten">
                     WEB PHIM
                 </b-navbar-brand>
                 <div>
-                    <b-form-input v-model="text" placeholder="Nhập phim muốn tìm" class="mx-5"></b-form-input>
+                    <b-form-input v-model="searchInput" placeholder="Nhập phim muốn tìm" class="mx-5" @click="searchMovie(searchInput)"/>
                 </div>
             </b-navbar-nav>
             <b-navbar-nav class="ml-auto">
-                <b-nav-item class="header-item mx-3">Phim bộ</b-nav-item>
-                <b-nav-item class="header-item mx-3">Phim lẻ</b-nav-item>
-                <b-nav-item class="header-item mx-3">Hoạt Hình</b-nav-item>
-                <b-nav-item-dropdown text="Thể loại" right class="header-item mx-3">
-                    <b-dropdown-item v-for="(category, index) in category" :key="index" href="" :id="category.slug">
-                        {{ category.name }}
-                    </b-dropdown-item>
-                    <!-- <b-dropdown-item href="">Kinh Dị</b-dropdown-item>
-                    <b-dropdown-item href="">Cổ Trang</b-dropdown-item> -->
+                <router-link :to="{name: 'movie-list', params:{slug:'phim-bo',name:'phim bộ'}}" style="text-decoration: none;">
+                    <div class="nav-link text-light header-item mx-3">Phim bộ</div>
+                </router-link>
+                <router-link :to="{name: 'movie-list', params:{slug:'phim-le',name:'phim lẻ'}}" style="text-decoration: none;">
+                    <div class="nav-link text-light header-item mx-3">Phim lẻ</div>
+                </router-link>
+                <router-link :to="{name: 'movie-list', params:{slug:'hoat-hinh',name:'phim hoạt hình'}}" style="text-decoration: none;">
+                    <div class="nav-link text-light header-item mx-3">Hoạt hình</div>
+                </router-link>
+                <b-nav-item-dropdown text="Thể loại" class="header-item mx-3 text-light">
+                    <div class="row" style="width: 500px;">
+                        <b-dropdown-item class="col-4" v-for="(category, index) in category" :key="index" href="" :id="category.slug"
+                        @click="goToMovieListByCategory(category.slug,category.name)">
+                            {{ category.name }}
+                        </b-dropdown-item>
+                    </div>
+
                 </b-nav-item-dropdown>
                 <b-nav-item-dropdown text="Quốc gia" class="header-item mx-3">
-                    <b-dropdown-item v-for="(country, index) in country" :key="index" href="" @click="getListByCountry(country.slug)">
+                    <div class="row" style="width: 500px;">
+                        <b-dropdown-item class="col-4" v-for="(country, index) in country" :key="index" href=""
+                        @click="goToMovieListByCountry(country.slug,country.name)">
                         {{ country.name }}
                     </b-dropdown-item>
-                    <!-- <b-dropdown-item href="">Nhật Bản</b-dropdown-item>
-                    <b-dropdown-item href="">Mỹ</b-dropdown-item> -->
+                    </div>
                 </b-nav-item-dropdown>
                 <b-nav-item class="header-item mx-3">Sắp chiếu</b-nav-item>
             </b-navbar-nav>
@@ -41,31 +50,154 @@ export default {
         return {
             category: [
                 {
-                    name: 'Khoa học viễn tưởng',
-                    slug: 'khoa-hoc-vien-tuong'
+                    name: 'Viễn tưởng',
+                    slug: 'vien-tuong'
                 },
                 {
                     name: 'Trinh thám',
                     slug: 'trinh-tham'
-                }
+                },
+                {
+                    name: 'Cổ trang',
+                    slug: 'co-trang'
+                },
+                {
+                    name: 'Tình cảm',
+                    slug: 'tinh-cam'
+                },
+                {
+                    name: 'Hài hước',
+                    slug: 'hai-huoc'
+                },
+                {
+                    name: 'Chiến tranh',
+                    slug: 'chien-tranh'
+                },
+                {
+                    name: 'Tâm lý',
+                    slug: 'tam-ly'
+                },
+                {
+                    name: 'Hình sự',
+                    slug: 'hinh-su'
+                },
+                {
+                    name: 'Thể thao',
+                    slug: 'the-thao'
+                },
+                {
+                    name: 'Võ thuật',
+                    slug: 'vo-thuat'
+                },
+                {
+                    name: 'Viễn tưởng',
+                    slug: 'vien-tuong'
+                },
+                {
+                    name: 'Phiêu lưu',
+                    slug: 'phieu-luu'
+                },
+                {
+                    name: 'Khoa học',
+                    slug: 'khoa-hoc'
+                },
+                {
+                    name: 'Âm nhạc',
+                    slug: 'am-nhac'
+                },
+                {
+                    name: 'Tài liệu',
+                    slug: 'tai-lieu'
+                },
+                {
+                    name: 'Gia Đình',
+                    slug: 'gia-dinh'
+                },
+                {
+                    name: 'Chính kịch',
+                    slug: 'chinh-kich'
+                },
+                {
+                    name: 'Bí ẩn',
+                    slug: 'bi-an'
+                },
+                {
+                    name: 'Học đường',
+                    slug: 'hoc-duong'
+                },
             ],
             country: [
                 {
-                    name: 'Việt Nam',
-                    slug: 'viet-nam'
+                    name: 'Hàn Quốc',
+                    slug: 'han-quoc'
                 },
                 {
-                    name: 'Mỹ',
-                    slug: 'my'
-                }
+                    name: 'Brazil',
+                    slug: 'brazil'
+                },
+                {
+                    name: 'Nhật Bản',
+                    slug: 'nhat-ban'
+                },
+                {
+                    name: 'Thái Lan',
+                    slug: 'thai-lan'
+                },
+                {
+                    name: 'Âu Mỹ',
+                    slug: 'au-my'
+                },
+                {
+                    name: 'Đài Loan',
+                    slug: 'dai-loan'
+                },
+                {
+                    name: 'Hồng Kông',
+                    slug: 'hong-kong'
+                },
+                {
+                    name: 'Ấn Độ',
+                    slug: 'an-do'
+                },
+                {
+                    name: 'Anh',
+                    slug: 'anh'
+                },
+                {
+                    name: 'Pháp',
+                    slug: 'phap'
+                },
+                {
+                    name: 'Canada',
+                    slug: 'canada'
+                },
+                {
+                    name: 'Nga',
+                    slug: 'nga'
+                },
+                {
+                    name: 'Thụy Điển',
+                    slug: 'thuy-dien'
+                },
+                {
+                    name: 'Quốc gia khác',
+                    slug: 'quoc-gia-khac'
+                },
             ],
-            text: ''
+            searchInput: ''
         }
     },
-    methods :{
-        getListByCountry(slug) {
-            this.$emit('getListByCountry',slug);
+    methods: {
+        searchMovie(slug) {
+            
+        },
+        goToMovieListByCategory(slug,name) {
+            this.$router.push({name: 'movie-list', params:{slug:slug, typeSlug:'thể loại',name:name,type:'category'}})
+        },
+        goToMovieListByCountry(slug,name) {
+            this.$router.push({name: 'movie-list', params:{slug:slug, typeSlug:'nước',name:name,type:'country'}})
         }
+        
     }
 }
 </script>
@@ -96,10 +228,18 @@ export default {
 }
 
 .nav-item a {
-    color: #B7BEC8;
+    color: #fff;
+}
+
+.nav-link:focus {
+    color: #B7BEC8
 }
 
 .nav-item:hover .nav-link {
     color: #0258d1;
 }
+.header-item .dropdown-menu{
+    right: -50px;
+}
+
 </style>

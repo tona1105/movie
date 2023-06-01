@@ -6,13 +6,22 @@
                     <iframe :src=srcEp width="100%" height="100%" frameborder="0" allowfullscreen></iframe>
                 </div>
                 <div class="col-9">
+                    <!-- List episodes and movie's content -->
                     <h3>TẬP PHIM</h3>
-                    <router-link class="btn btn-light mx-1 my-1" :class="{'active': item.name === ep}" style="width: 50px;" 
-                    v-for="(item, index) in listEpisodes" :key="index"
-                    :to="{name: 'movie-watch', params: {slug: slug, ep:item.name}}">
+                    <router-link class="btn btn-light mx-1 my-1" :class="{ 'active': item.slug === ep }"
+                        style="width: 50px;" v-for="(item, index) in listEpisodes" :key="index"
+                        :to="{ name: 'movie-watch', params: { slug: slug, ep: item.slug } }">
                         {{ item.name }}
                     </router-link>
+                    <div class="text-light">
+                        <h4 class="my-0 text-danger">Nội dung chi tiết</h4>
+                        <h4>{{ movie.name }}</h4>
+                        <span v-html="removePTag(movie.content)"></span>
+                    </div>
 
+                </div>
+                <div class="col-3">
+                    <PreMovie />
                 </div>
             </div>
 
@@ -22,6 +31,7 @@
 
 <script>
 import axios from 'axios'
+import PreMovie from '@/components/PreMovie.vue'
 import defaultLayout from '@/components/Default-layout.vue'
 export default {
     props: {
@@ -36,11 +46,13 @@ export default {
     },
     components: {
         defaultLayout,
+        PreMovie,
     },
     data() {
         return {
             listEpisodes: [],
             movie: [],
+
             srcEp: '',
         }
     },
@@ -49,11 +61,15 @@ export default {
             this.playMovieByEp(newEp)
         }
     },
+
     async created() {
         await this.getMovieBySlug()
         await this.playMovieByEp()
+
+
     },
     methods: {
+
         async getMovieBySlug() {
             try {
                 const response = await axios.get(`https://ophim1.com/phim/${this.slug}`)
@@ -67,17 +83,25 @@ export default {
         },
         async playMovieByEp() {
             try {
-                if(isNaN(this.ep)) {
+                if (isNaN(this.ep)) {
                     this.srcEp = this.listEpisodes[0].link_embed
                 }
                 else {
                     this.srcEp = this.listEpisodes[this.ep-1].link_embed
                 }
+                console.log(this.srcEp);
             }
             catch (e) {
                 console.log(e);
             }
         },
+        removePTag(string) {
+            if (string) {
+                return string.replace(/<\/?p>/g, '');
+            }
+            return '';
+        },
+
     }
 }
 </script>
