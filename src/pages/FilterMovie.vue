@@ -28,9 +28,13 @@ export default {
         },
         name: {
             type: String,
-            required: true
+            required: false
         },
         type: {
+            type: String,
+            required: false
+        },
+        keyword: {
             type: String,
             required: false
         }
@@ -47,7 +51,11 @@ export default {
     watch: {
         slug(newSlug) {
             this.getMovie(newSlug)
+        },
+        keyword(newKeyWord) {
+            this.getMovie(newKeyWord)
         }
+
     },
     async created() {
         await this.getMovie()
@@ -56,6 +64,7 @@ export default {
         async getMovie() {
             if (this.type === 'category') this.getMovieByCategory() 
             else if (this.type === 'country') this.getMovieByCountry()
+            else if (this.type === 'search') this.getMovieByKeyWord()
             else this.getMovieBySlug()
             console.log(this.listFilterMovie);
 
@@ -70,6 +79,10 @@ export default {
         },
         async getMovieByCountry() {
             const response = await axios.get(`https://ophim6.cc/_next/data/bMep5VbIGtkpBRqoaRU-z/quoc-gia/${this.slug}.json?slug=${this.slug}`)
+            this.listFilterMovie = response.data.pageProps.data.items
+        },
+        async getMovieByKeyWord() {
+            const response = await axios.get(`https://ophim6.cc/_next/data/bMep5VbIGtkpBRqoaRU-z/tim-kiem.json?keyword=${this.keyword}`)
             this.listFilterMovie = response.data.pageProps.data.items
         }
     }
