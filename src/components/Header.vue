@@ -7,7 +7,7 @@
                     WEB PHIM
                 </b-navbar-brand>
                 <div>
-                    <b-form-input v-model="searchInput" placeholder="Nhập phim muốn tìm" class="mx-5" @keyup.enter="searchMovie(searchInput)"/>
+                    <b-form-input v-model="searchInput" placeholder="Nhập phim muốn tìm" class="mx-5" @keyup.enter="searchMovie(searchInput)" required />
                     <!-- <button @click="searchMovie(searchInput)"></button> -->
                 </div>
             </b-navbar-nav>
@@ -190,7 +190,7 @@ export default {
     },
     methods: {
         searchMovie(keyword) {
-            this.$router.push({name: 'movie-list', params:{slug:'tim-kiem' ,type:'search', name: '', keyword: keyword}})
+            this.$router.push({name: 'search-movie', params:{keyword: keyword}})
         },
         goToMovieListByCategory(slug,name) {
             this.$router.push({name: 'movie-list', params:{slug:slug, typeSlug:'thể loại',name:name,type:'category'}})
