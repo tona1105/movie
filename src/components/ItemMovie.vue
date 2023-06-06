@@ -3,6 +3,7 @@
        <router-link :to="{name:'movie-detail', params: {slug: movie.slug}}" style="text-decoration: none;">
         <img :src="'https://img.ophim1.com/uploads/movies/' + movie.thumb_url" class=" w-100 h-100 item-img">
         <font-awesome-icon class="item-icon text-light" icon="play-circle" />
+        <div class="btn btn-primary position-absolute" style="left: 0;">{{ movie.year }}</div>
         <div class="text-center text-light position-relative" style="background-color: rgba(0,0,0,.7); bottom:48px">
             <div class="text-truncate mx-auto w-80">{{ movie.name }} </div>
             <div class="text-truncate mx-auto w-80">{{ movie.origin_name }}</div>

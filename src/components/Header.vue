@@ -12,6 +12,9 @@
                 </div>
             </b-navbar-nav>
             <b-navbar-nav class="ml-auto">
+                <router-link :to="{name: 'movie-list', params:{slug:'phim-moi',name:'phim mới cập nhật',type:'new'}}" style="text-decoration: none;">
+                    <div class="nav-link text-light header-item mx-3">Phim mới</div>
+                </router-link>
                 <router-link :to="{name: 'movie-list', params:{slug:'phim-bo',name:'phim bộ'}}" style="text-decoration: none;">
                     <div class="nav-link text-light header-item mx-3">Phim bộ</div>
                 </router-link>
@@ -38,7 +41,6 @@
                     </b-dropdown-item>
                     </div>
                 </b-nav-item-dropdown>
-                <b-nav-item class="header-item mx-3">Sắp chiếu</b-nav-item>
             </b-navbar-nav>
         </b-navbar>
 
