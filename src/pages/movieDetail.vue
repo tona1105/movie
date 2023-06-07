@@ -21,6 +21,7 @@
                                                     {{ item.name }}
                                                 </router-link>
                                             </span>
+                                            <!-- a -->
                                         </p>
                                     </div>
                                     <p>Đạo diễn:
