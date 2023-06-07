@@ -16,8 +16,10 @@
                                     <div>
                                         <p>Trạng thái: {{ movie.episode_current }} {{ movie.lang }}</p>
                                         <p>Thể loại:
-                                            <span v-for="(item, index) in category" :key="index">
-                                                {{ item.name }}
+                                            <span v-for="(item, index) in category" :key="index" >
+                                                <router-link :to="{name: 'movie-list', params: {slug: item.slug, typeSlug: 'thể loại',name:item.name, type:'category'}}" class="ml-1 text-light category"  style="text-decoration: none;">
+                                                    {{ item.name }}
+                                                </router-link>
                                             </span>
                                         </p>
                                     </div>
@@ -146,5 +148,8 @@ export default {
 }
 .button:hover {
     cursor: pointer;
+}
+.category:hover {
+    color: #00b8ff !important;
 }
 </style>
