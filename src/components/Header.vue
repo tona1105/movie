@@ -1,30 +1,32 @@
 <template>
     <div>
         <b-navbar class="navbar header-bg navbar-light navbar-expand header-bg">
-            <b-navbar-nav class="mx-5">
+            <b-navbar-nav class="mx-sm-1 mx-md-2 mx-lg-5">
                 <b-navbar-brand href="/">
                     <img src="https://placekitten.com/g/30/30" class="d-inline-block align-top" alt="Kitten">
                     WEB PHIM
                 </b-navbar-brand>
-                <div>
-                    <b-form-input v-model="searchInput" placeholder="Nhập phim muốn tìm" class="mx-5" @keyup.enter="searchMovie(searchInput)" required />
+                <b-navbar-brand class="search position-relative">
+                    <font-awesome-icon class="text-light search-icon" icon="fa-solid fa-magnifying-glass" />
+                    <b-form-input v-model="searchInput" placeholder="Nhập phim muốn tìm" class="form-input position-absolute" @keyup.enter="searchMovie(searchInput)" required />
                     <!-- <button @click="searchMovie(searchInput)"></button> -->
-                </div>
+                </b-navbar-brand>
+                
             </b-navbar-nav>
             <b-navbar-nav class="ml-auto">
                 <router-link :to="{name: 'movie-list', params:{slug:'phim-moi',name:'phim mới cập nhật',type:'new'}}" style="text-decoration: none;">
-                    <div class="nav-link text-light header-item mx-3">Phim mới</div>
+                    <div class="nav-link text-light header-item  mx-md-2 mx-lg-3">Phim mới</div>
                 </router-link>
                 <router-link :to="{name: 'movie-list', params:{slug:'phim-bo',name:'phim bộ'}}" style="text-decoration: none;">
-                    <div class="nav-link text-light header-item mx-3">Phim bộ</div>
+                    <div class="nav-link text-light header-item mx-md-2 mx-lg-3">Phim bộ</div>
                 </router-link>
                 <router-link :to="{name: 'movie-list', params:{slug:'phim-le',name:'phim lẻ'}}" style="text-decoration: none;">
-                    <div class="nav-link text-light header-item mx-3">Phim lẻ</div>
+                    <div class="nav-link text-light header-item mx-md-2 mx-lg-3">Phim lẻ</div>
                 </router-link>
                 <router-link :to="{name: 'movie-list', params:{slug:'hoat-hinh',name:'phim hoạt hình'}}" style="text-decoration: none;">
-                    <div class="nav-link text-light header-item mx-3">Hoạt hình</div>
+                    <div class="nav-link text-light header-item mx-md-2 mx-lg-3">Hoạt hình</div>
                 </router-link>
-                <b-nav-item-dropdown text="Thể loại" class="header-item mx-3 text-light">
+                <b-nav-item-dropdown text="Thể loại" class="header-item mx-md-2 mx-lg-3 text-light">
                     <div class="row" style="width: 500px;">
                         <b-dropdown-item class="col-4" v-for="(category, index) in category" :key="index" href="" :id="category.slug"
                         @click="goToMovieListByCategory(category.slug,category.name)">
@@ -243,6 +245,25 @@ export default {
 }
 .header-item .dropdown-menu{
     right: -50px;
+}
+@media only screen and (max-width: 912px) {
+    .form-input {
+        display: none;
+        width: 200px;
+        border: 1px solid #ccc;
+    }
+    .navbar-expand {
+        justify-content: center !important;
+    }
+    .search:hover .form-input {
+        display: block !important;
+    }
+}
+
+@media screen and (min-width: 913px) {
+    .search-icon{
+        display: none;
+    }
 }
 
 </style>

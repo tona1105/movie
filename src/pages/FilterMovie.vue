@@ -4,8 +4,8 @@
             <div class="row">
                 <h3 class="text-center text-light">Danh sách {{ this.typeSlug }} {{ this.name }}</h3>
                 <div>
-                    <h3 class="text-light" style="display: inline-block;">Sắp xếp theo:</h3>
-                    <div class="btn btn-primary mx-2 mb-2" :class="{ 'btn-info': click === 1 }" style="border: none;"
+                    <h3 class="text-light" style="display: block;">Sắp xếp theo:</h3>
+                    <div class="btn btn-primary mb-2" :class="{ 'btn-info': click === 1 }" style="border: none; margin-right: 0.5rem;"
                         @click="sortByYearInc">
                         Mới nhất
                     </div>
@@ -17,7 +17,7 @@
                         @click="sortByText">Chữ cái
                     </div>
                 </div>
-                <div v-for="(item, index) in paginatedItems" :key="index" class="col-2 my-1">
+                <div v-for="(item, index) in paginatedItems" :key="index" class="col-6 col-md-4 col-lg-2 my-1">
                     <ItemMovie :movie="item" />
                 </div>
             </div>
