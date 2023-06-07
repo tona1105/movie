@@ -10,6 +10,7 @@
                     <font-awesome-icon class="text-light search-icon" icon="fa-solid fa-magnifying-glass" />
                     <b-form-input v-model="searchInput" placeholder="Nhập phim muốn tìm" class="form-input position-absolute" @keyup.enter="searchMovie(searchInput)" required />
                     <!-- <button @click="searchMovie(searchInput)"></button> -->
+                    <!-- abc -->
                 </b-navbar-brand>
                 
             </b-navbar-nav>
