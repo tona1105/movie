@@ -5,30 +5,35 @@
                 <h3 class="text-center text-light">Danh sách {{ this.typeSlug }} {{ this.name }}</h3>
                 <div>
                     <h3 class="text-light" style="display: inline-block;">Sắp xếp theo:</h3>
-                    <div class="btn btn-primary mx-2 mb-2" :class="{ 'btn-info': click === 1 }"
-                    style="border: none;" 
-                    @click="sortByYearInc">
+                    <div class="btn btn-primary mx-2 mb-2" :class="{ 'btn-info': click === 1 }" style="border: none;"
+                        @click="sortByYearInc">
                         Mới nhất
                     </div>
-                    <div class="btn btn-primary mx-2 mb-2" :class="{ 'btn-info': click === 2 }"
-                    style="border: none;" 
-                    @click="sortByYearDec">
+                    <div class="btn btn-primary mx-2 mb-2" :class="{ 'btn-info': click === 2 }" style="border: none;"
+                        @click="sortByYearDec">
                         Cũ nhất
                     </div>
-                    <div class="btn btn-primary mx-2 mb-2" :class="{ 'btn-info': click === 3 }" 
-                    style="border: none;"
-                    @click="sortByText">Chữ cái
+                    <div class="btn btn-primary mx-2 mb-2" :class="{ 'btn-info': click === 3 }" style="border: none;"
+                        @click="sortByText">Chữ cái
                     </div>
                 </div>
-                <div v-for="(item, index) in listFilterMovie" :key="index" class="col-2 my-1">
+                <div v-for="(item, index) in paginatedItems" :key="index" class="col-2 my-1">
                     <ItemMovie :movie="item" />
                 </div>
+            </div>
+        </div>
+        <div class="text-center">
+            <div class="btn btn-primary m-2 px-3 py-2" v-for="(item,index) in totalPages" :key="index"
+            :class="{'disabled': pagination.currentPage === item}"
+            @click="goToPage(item)">
+                {{ item }}
             </div>
         </div>
     </DefaultLayout>
 </template>
 
 <script>
+
 import DefaultLayout from '@/components/Default-layout.vue';
 import axios from 'axios'
 import ItemMovie from '@/components/ItemMovie.vue';
@@ -58,7 +63,12 @@ export default {
     data() {
         return {
             listFilterMovie: [],
-            click: 0
+            click: 0,
+            pagination: {
+                currentPage: 1,
+                pageSize: 12,
+                totalItems: 0,
+            },
         }
     },
     watch: {
@@ -70,31 +80,50 @@ export default {
     async created() {
         await this.getMovie()
     },
+    computed: {
+        paginatedItems() {
+            const startIndex = (this.pagination.currentPage - 1) * this.pagination.pageSize;
+            const endIndex = startIndex + this.pagination.pageSize;
+            return this.listFilterMovie.slice(startIndex, endIndex);
+        },
+        totalPages() {
+            return Math.ceil(this.listFilterMovie.length / this.pagination.pageSize);
+        },
+    },
     methods: {
+        pushMovieToList(data1,data2) {
+            this.listFilterMovie = []; //clear old data in list 
+            this.listFilterMovie.push(...data1.data.pageProps.data.items) //link to item
+            this.listFilterMovie.push(...data2.data.pageProps.data.items) //link to item
+        },
         async getMovie() {
             if (this.type === 'category') this.getMovieByCategory()
             else if (this.type === 'country') this.getMovieByCountry()
             else if (this.type === 'new') this.getNewMovie()
             else this.getMovieBySlug()
             console.log(this.listFilterMovie);
-
         },
         async getNewMovie() {
             const response = await axios.get(`https://ophim1.com/danh-sach/phim-moi-cap-nhat?page=1`)
-            this.listFilterMovie = response.data.items
+            const response2 = await axios.get(`https://ophim1.com/danh-sach/phim-moi-cap-nhat?page=2`)
+            this.listFilterMovie.push(...response.data.items)
+            this.listFilterMovie.push(...response2.data.items)
             console.log(this.listFilterMovie);
         },
         async getMovieBySlug() {
             const response = await axios.get(`https://ophim6.cc/_next/data/bMep5VbIGtkpBRqoaRU-z/danh-sach/${this.slug}.json?slug=${this.slug}`)
-            this.listFilterMovie = response.data.pageProps.data.items
+            const response2 = await axios.get(`https://ophim6.cc/_next/data/bMep5VbIGtkpBRqoaRU-z/danh-sach/${this.slug}.json?page=2&slug=${this.slug}`)    
+            this.pushMovieToList(response,response2)
         },
         async getMovieByCategory() {
             const response = await axios.get(`https://ophim6.cc/_next/data/bMep5VbIGtkpBRqoaRU-z/the-loai/${this.slug}.json?slug=${this.slug}`)
-            this.listFilterMovie = response.data.pageProps.data.items
+            const response2 = await axios.get(`https://ophim6.cc/_next/data/bMep5VbIGtkpBRqoaRU-z/the-loai/${this.slug}.json?page=2&slug=${this.slug}`)
+            this.pushMovieToList(response,response2)
         },
         async getMovieByCountry() {
             const response = await axios.get(`https://ophim6.cc/_next/data/bMep5VbIGtkpBRqoaRU-z/quoc-gia/${this.slug}.json?slug=${this.slug}`)
-            this.listFilterMovie = response.data.pageProps.data.items
+            const response2 = await axios.get(`https://ophim6.cc/_next/data/bMep5VbIGtkpBRqoaRU-z/quoc-gia/${this.slug}.json?page=2&slug=${this.slug}`)
+            this.pushMovieToList(response,response2)
         },
         sortByYearInc() {
             this.listFilterMovie.sort((a, b) => new Date(b.year) - new Date(a.year))
@@ -105,15 +134,16 @@ export default {
             this.listFilterMovie.sort((a, b) => new Date(a.year) - new Date(b.year))
             this.click = 2
             console.log('sort2');
-            
+
         },
         sortByText() {
             this.listFilterMovie.sort((a, b) => a.name.localeCompare(b.name))
             this.click = 3
             console.log('sort3');
-
-        }
-
+        },
+        goToPage(index) {
+            this.pagination.currentPage = index
+        },
     }
 }
 </script>

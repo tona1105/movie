@@ -8,7 +8,7 @@
                 <div class="col-9">
                     <!-- List episodes and movie's content -->
                     <h3>TẬP PHIM</h3>
-                    <router-link class="btn btn-light mx-1 my-1" :class="{ 'active': item.slug === ep }"
+                    <router-link class="btn btn-light mx-1 my-1" :class="{ 'active': item.slug === ep || item.slug === 'full' }"
                         style="width: 50px;" v-for="(item, index) in listEpisodes" :key="index"
                         :to="{ name: 'movie-watch', params: { slug: slug, ep: item.slug } }">
                         {{ item.name }}

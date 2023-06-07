@@ -116,7 +116,7 @@ export default {
                 this.category = this.movie.category
                 this.director = this.movie.director
                 this.actor = this.movie.actor
-                
+                console.log(this.movie);
             }
             catch (e) {
                 console.log(e);
