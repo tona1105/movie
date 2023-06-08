@@ -8,43 +8,52 @@
                 </b-navbar-brand>
                 <b-navbar-brand class="search position-relative px-2">
                     <font-awesome-icon class="text-light search-icon" icon="fa-solid fa-magnifying-glass" />
-                    <b-form-input v-model="searchInput" placeholder="Nhập phim muốn tìm" class="form-input" @keyup.enter="searchMovie(searchInput)" required />
+                    <b-form-input v-model="searchInput" placeholder="Nhập phim muốn tìm" class="form-input"
+                        @keyup.enter="searchMovie(searchInput)" required />
                     <!-- <button @click="searchMovie(searchInput)"></button> -->
                 </b-navbar-brand>
-                
             </b-navbar-nav>
-            
-            <b-navbar-nav class="ml-auto header-menu">
-                <router-link :to="{name: 'movie-list', params:{slug:'phim-moi',name:'phim mới cập nhật',type:'new'}}" style="text-decoration: none;">
-                    <div class="nav-link text-light header-item  mx-md-2 mx-lg-3">Phim mới</div>
-                </router-link>
-                <router-link :to="{name: 'movie-list', params:{slug:'phim-bo',name:'phim bộ'}}" style="text-decoration: none;">
-                    <div class="nav-link text-light header-item mx-md-2 mx-lg-3">Phim bộ</div>
-                </router-link>
-                <router-link :to="{name: 'movie-list', params:{slug:'phim-le',name:'phim lẻ'}}" style="text-decoration: none;">
-                    <div class="nav-link text-light header-item mx-md-2 mx-lg-3">Phim lẻ</div>
-                </router-link>
-                <router-link :to="{name: 'movie-list', params:{slug:'hoat-hinh',name:'phim hoạt hình'}}" style="text-decoration: none;">
-                    <div class="nav-link text-light header-item mx-md-2 mx-lg-3">Hoạt hình</div>
-                </router-link>
-                <b-nav-item-dropdown text="Thể loại" class="header-item mx-md-2 mx-lg-3 text-light">
-                    <div class="row" style="width: 500px;">
-                        <b-dropdown-item class="col-4" v-for="(category, index) in category" :key="index" href="" :id="category.slug"
-                        @click="goToMovieListByCategory(category.slug,category.name)">
-                            {{ category.name }}
-                        </b-dropdown-item>
-                    </div>
 
-                </b-nav-item-dropdown>
-                <b-nav-item-dropdown text="Quốc gia" class="header-item mx-3">
-                    <div class="row" style="width: 500px;">
-                        <b-dropdown-item class="col-4" v-for="(country, index) in country" :key="index" href=""
-                        @click="goToMovieListByCountry(country.slug,country.name)">
-                        {{ country.name }}
-                    </b-dropdown-item>
-                    </div>
-                </b-nav-item-dropdown>
+            <b-navbar-nav class="menu-bars text-light">
+                <font-awesome-icon icon="fa-solid fa-bars" style="font-size: 1.5rem;" />
+                <b-navbar-nav class="ml-auto header-menu">
+                    <router-link
+                        :to="{ name: 'movie-list', params: { slug: 'phim-moi', name: 'phim mới cập nhật', type: 'new' } }"
+                        style="text-decoration: none;">
+                        <div class="nav-link text-light header-item  mx-md-2 mx-lg-3">Phim mới</div>
+                    </router-link>
+                    <router-link :to="{ name: 'movie-list', params: { slug: 'phim-bo', name: 'phim bộ' } }"
+                        style="text-decoration: none;">
+                        <div class="nav-link text-light header-item mx-md-2 mx-lg-3">Phim bộ</div>
+                    </router-link>
+                    <router-link :to="{ name: 'movie-list', params: { slug: 'phim-le', name: 'phim lẻ' } }"
+                        style="text-decoration: none;">
+                        <div class="nav-link text-light header-item mx-md-2 mx-lg-3">Phim lẻ</div>
+                    </router-link>
+                    <router-link :to="{ name: 'movie-list', params: { slug: 'hoat-hinh', name: 'phim hoạt hình' } }"
+                        style="text-decoration: none;">
+                        <div class="nav-link text-light header-item mx-md-2 mx-lg-3">Hoạt hình</div>
+                    </router-link>
+                    <b-nav-item-dropdown text="Thể loại" class="header-item mx-md-2 mx-lg-3 text-light">
+                        <div class="row menu-type" style="width: 500px;">
+                            <b-dropdown-item class="col-4" v-for="(category, index) in category" :key="index" href=""
+                                :id="category.slug" @click="goToMovieListByCategory(category.slug, category.name)">
+                                {{ category.name }}
+                            </b-dropdown-item>
+                        </div>
+
+                    </b-nav-item-dropdown>
+                    <b-nav-item-dropdown text="Quốc gia" class="header-item mx-md-2 mx-lg-3">
+                        <div class="row menu-country" style="width: 500px;">
+                            <b-dropdown-item class="col-4" v-for="(country, index) in country" :key="index" href=""
+                                @click="goToMovieListByCountry(country.slug, country.name)">
+                                {{ country.name }}
+                            </b-dropdown-item>
+                        </div>
+                    </b-nav-item-dropdown>
+                </b-navbar-nav>
             </b-navbar-nav>
+
         </b-navbar>
 
     </div>
@@ -195,15 +204,15 @@ export default {
     },
     methods: {
         searchMovie(keyword) {
-            this.$router.push({name: 'search-movie', params:{keyword: keyword}})
+            this.$router.push({ name: 'search-movie', params: { keyword: keyword } })
         },
-        goToMovieListByCategory(slug,name) {
-            this.$router.push({name: 'movie-list', params:{slug:slug, typeSlug:'thể loại',name:name,type:'category'}})
+        goToMovieListByCategory(slug, name) {
+            this.$router.push({ name: 'movie-list', params: { slug: slug, typeSlug: 'thể loại', name: name, type: 'category' } })
         },
-        goToMovieListByCountry(slug,name) {
-            this.$router.push({name: 'movie-list', params:{slug:slug, typeSlug:'nước',name:name,type:'country'}})
+        goToMovieListByCountry(slug, name) {
+            this.$router.push({ name: 'movie-list', params: { slug: slug, typeSlug: 'nước', name: name, type: 'country' } })
         }
-        
+
     }
 }
 </script>
@@ -244,36 +253,82 @@ export default {
 .nav-item:hover .nav-link {
     color: #0258d1;
 }
-.header-item .dropdown-menu{
+
+.header-item .dropdown-menu {
     right: -50px;
 }
 
 @media screen and (max-width: 413px) {
-    .header-menu {
-        display: none;
-    }
-}
-
-@media only screen and (max-width: 912px) {
     .form-input {
         position: absolute;
         display: none;
         width: 200px;
         border: 1px solid #ccc;
     }
+
+    .search:hover .form-input {
+        display: block !important;
+    }
+
+    .header-menu {
+        display: none;
+        background-color: #0f172a;
+        border: 1px solid #ccc;
+        position: absolute;
+        top: 30px;
+        right: 0;
+        z-index: 1;
+    }
+
+    .header-item .dropdown-menu {
+    right: -12px;
+}
+
+    .navbar-expand {
+        justify-content: space-between !important;
+        margin-left: 0.5rem;
+    }
+
+    .menu-bars {
+        display: block;
+        position: relative;
+        left: -0.75rem;
+    }
+
+    .menu-bars:hover .header-menu {
+        display: block;
+    }
+
+    .menu-type, .menu-country {
+        width: 400px !important;
+    }
+}
+
+@media only screen and (min-width: 414px) and (max-width: 912px) {
+    .form-input {
+        position: absolute;
+        display: none;
+        width: 200px;
+        border: 1px solid #ccc;
+    }
+
     .navbar-expand {
         justify-content: center !important;
     }
+
     .search:hover .form-input {
         display: block !important;
     }
 }
 
 @media screen and (min-width: 913px) {
-    .search-icon{
+    .search-icon {
+        display: none;
+    }
+
+    .menu-bars {
         display: none;
     }
 
 }
-
 </style>
