@@ -6,15 +6,15 @@
                     <img src="https://placekitten.com/g/30/30" class="d-inline-block align-top" alt="Kitten">
                     WEB PHIM
                 </b-navbar-brand>
-                <b-navbar-brand class="search position-relative">
+                <b-navbar-brand class="search position-relative px-2">
                     <font-awesome-icon class="text-light search-icon" icon="fa-solid fa-magnifying-glass" />
-                    <b-form-input v-model="searchInput" placeholder="Nhập phim muốn tìm" class="form-input position-absolute" @keyup.enter="searchMovie(searchInput)" required />
+                    <b-form-input v-model="searchInput" placeholder="Nhập phim muốn tìm" class="form-input" @keyup.enter="searchMovie(searchInput)" required />
                     <!-- <button @click="searchMovie(searchInput)"></button> -->
-                    <!-- abc -->
                 </b-navbar-brand>
                 
             </b-navbar-nav>
-            <b-navbar-nav class="ml-auto">
+            
+            <b-navbar-nav class="ml-auto header-menu">
                 <router-link :to="{name: 'movie-list', params:{slug:'phim-moi',name:'phim mới cập nhật',type:'new'}}" style="text-decoration: none;">
                     <div class="nav-link text-light header-item  mx-md-2 mx-lg-3">Phim mới</div>
                 </router-link>
@@ -247,8 +247,16 @@ export default {
 .header-item .dropdown-menu{
     right: -50px;
 }
+
+@media screen and (max-width: 413px) {
+    .header-menu {
+        display: none;
+    }
+}
+
 @media only screen and (max-width: 912px) {
     .form-input {
+        position: absolute;
         display: none;
         width: 200px;
         border: 1px solid #ccc;
@@ -265,6 +273,7 @@ export default {
     .search-icon{
         display: none;
     }
+
 }
 
 </style>

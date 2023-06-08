@@ -1,66 +1,63 @@
 <template>
     <div>
-        <DefaultLayout @getListByCountry="getListByCountry" >
+        <DefaultLayout @getListByCountry="getListByCountry">
             <div class="container p-2" id="home-page">
                 <div class="row">
                     <!-- Slider recommend movie -->
                     <h3 class="text-light">PHIM ĐỀ XUẤT</h3>
                     <flickity v-if="Object.keys(random12inListMovie).length > 0" class="carousel" ref="flickity"
                         :options="flickityOptions">
-                        <div class="carousel-cell mx-2" v-for="(item, index) in random12inListMovie" :key="index"
-                            style="height: 300px; width: 20%">
-                            <!-- <img :src="'https://img.ophim1.com/uploads/movies/' + item.thumb_url"
-                                class="position-relative w-100 h-100">
-                            <div class="fixed-bottom text-center" style="background-color: rgba(0,0,0,.7); color: white">
-                                <div class="text-truncate mx-auto" style="max-width: 80%">{{ item.name }}</div>
-                                <div class="text-truncate mx-auto" style="max-width: 80%">{{ item.origin_name }}</div>
-                            </div> -->
-                            <ItemMovie :movie="item"/>
+                        <div class="carousel-cell mx-md-2 col-md-4 col-lg-3"
+                            v-for="(item, index) in random12inListMovie" :key="index" style="height: 300px;">
+                            <ItemMovie :movie="item" />
                         </div>
                     </flickity>
                     <!-- List movie -->
-                    <div class="col-9">
+                    <div class="col-sm col-md-9">
                         <div class="row">
-                            <div class="col-9">
-                                <h3 class="text-light mt-2">PHIM BỘ</h3>
+                            <div>
+                                <router-link :to="{ name: 'movie-list', params: { slug: 'phim-bo', name: 'phim bộ' } }"
+                                    class="col-3" style="text-decoration: none;">
+                                    <h3 class="text-light mt-2">PHIM BỘ</h3>
+                                </router-link>
                             </div>
-                            <router-link :to="{name: 'movie-list', params: {slug:'phim-bo', name:'phim bộ'}}" class="col-3" style="text-decoration: none;">
-                                <h3 class="text-light mt-2" style="text-align: end">Xem thêm</h3>
-                            </router-link>
-                            <div v-for="(item, index) in listSeriesMovie" :key="index" class="col-3 text-light mb-4 ">
+                            <div v-for="(item, index) in listSeriesMovie" :key="index"
+                                class="col-mobile col-md-4 col-lg-3 text-light mb-4 ">
                                 <ItemMovie :movie="item" />
                             </div>
                         </div>
                         <div class="row">
-                            <div class="col-9">
-                                <h3 class="text-light mt-2">PHIM LẺ</h3>
+                            <div class="">
+                                <router-link :to="{ name: 'movie-list', params: { slug: 'phim-le', name: 'phim lẻ' } }"
+                                    class="col-3" style="text-decoration: none;">
+                                    <h3 class="text-light mt-2">PHIM LẺ</h3>
+                                </router-link>
                             </div>
-                            <router-link :to="{name: 'movie-list', params: {slug:'phim-le', name:'phim lẻ'}}" class="col-3" style="text-decoration: none;">
-                                <h3 class="text-light mt-2" style="text-align: end">Xem thêm</h3>
-                            </router-link>
-                            <div v-for="(item, index) in listSingleMovie" :key="index" class="col-3 text-light mb-4 ">
+                            <div v-for="(item, index) in listSingleMovie" :key="index"
+                                class="col-mobile col-md-4 col-lg-3 text-light mb-4 ">
                                 <ItemMovie :movie="item" />
                             </div>
-                           
                         </div>
                         <div class="row">
-                            <div class="col-9">
-                                <h3 class="text-light mt-2">PHIM HOẠT HÌNH</h3>
+                            <div>
+                                <router-link
+                                    :to="{ name: 'movie-list', params: { slug: 'hoat-hinh', name: 'phim hoạt hình' } }"
+                                    class="col-3" style="text-decoration: none;">
+                                    <h3 class="text-light mt-2">PHIM HOẠT HÌNH</h3>
+                                </router-link>
                             </div>
-                            <router-link :to="{name: 'movie-list', params: {slug:'hoat-hinh', name:'phim hoạt hình'}}" class="col-3" style="text-decoration: none;">
-                                <h3 class="text-light mt-2" style="text-align:end">Xem thêm</h3>
-                            </router-link>
-                            <div v-for="(item, index) in listCartoon" :key="index" class="col-3 text-light  ">
+                            <div v-for="(item, index) in listCartoon" :key="index"
+                                class="col-mobile col-md-4 col-lg-3 text-light  ">
                                 <ItemMovie :movie="item" />
                             </div>
-                            
+
                         </div>
                         <router-view></router-view>
                     </div>
                     <!-- Top movie -->
-                    <div class="col-3 ml-3">
+                    <div class="col-3 ml-3 premovie">
                         <div class="row">
-                            <PreMovie/>
+                            <PreMovie />
                         </div>
                     </div>
                 </div>
@@ -112,7 +109,7 @@ export default {
             const shuffledList = this.listMovie.sort(() => Math.random() - 0.5);
             return shuffledList.slice(0, 12);
         },
-       
+
     },
 
     methods: {
@@ -158,7 +155,7 @@ export default {
 <style>
 html,
 body {
-    overflow-y: auto;
+    /* overflow-y: auto; */
 
 }
 
@@ -175,6 +172,21 @@ body {
     width: 3.5rem;
     height: 4rem;
     border-radius: 2px;
+}
+
+@media screen and (max-width: 413px) {
+    .carousel-cell {
+        margin: 0 0.25rem;
+        width: 50%;
+        left: 4px !important;
+    }
+    .col-mobile {
+        width: 50%;
+        margin-bottom: 1rem !important;
+    }
+    .premovie {
+        display: none;
+    }
 }
 </style>
   
