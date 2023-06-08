@@ -258,7 +258,7 @@ export default {
     right: -50px;
 }
 
-@media screen and (max-width: 413px) {
+@media screen and (min-width : 320px) and (max-width: 767px) {
     .form-input {
         position: absolute;
         display: none;
@@ -268,6 +268,7 @@ export default {
 
     .search:hover .form-input {
         display: block !important;
+        z-index: 1;
     }
 
     .header-menu {
@@ -279,11 +280,9 @@ export default {
         right: 0;
         z-index: 1;
     }
-
     .header-item .dropdown-menu {
     right: -12px;
 }
-
     .navbar-expand {
         justify-content: space-between !important;
         margin-left: 0.5rem;
@@ -304,7 +303,7 @@ export default {
     }
 }
 
-@media only screen and (min-width: 414px) and (max-width: 912px) {
+@media only screen and (min-width : 768px) and (max-width: 991px) {
     .form-input {
         position: absolute;
         display: none;
@@ -319,14 +318,16 @@ export default {
     .search:hover .form-input {
         display: block !important;
     }
+    .menu-bars .fa-bars {
+        display: none;
+    }
 }
 
-@media screen and (min-width: 913px) {
+@media screen and (min-width : 992px) {
     .search-icon {
         display: none;
     }
-
-    .menu-bars {
+    .menu-bars .fa-bars {
         display: none;
     }
 

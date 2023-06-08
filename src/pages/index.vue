@@ -7,7 +7,7 @@
                     <h3 class="text-light">PHIM ĐỀ XUẤT</h3>
                     <flickity v-if="Object.keys(random12inListMovie).length > 0" class="carousel" ref="flickity"
                         :options="flickityOptions">
-                        <div class="carousel-cell mx-md-2 col-md-4 col-lg-3"
+                        <div class="carousel-cell mx-md-2 col-md-4 col-lg-pc"
                             v-for="(item, index) in random12inListMovie" :key="index" style="height: 300px;">
                             <ItemMovie :movie="item" />
                         </div>
@@ -22,7 +22,7 @@
                                 </router-link>
                             </div>
                             <div v-for="(item, index) in listSeriesMovie" :key="index"
-                                class="col-mobile col-md-4 col-lg-3 text-light mb-4 ">
+                                class="col-6 col-md-4 col-lg-3 text-light mb-4 ">
                                 <ItemMovie :movie="item" />
                             </div>
                         </div>
@@ -34,7 +34,7 @@
                                 </router-link>
                             </div>
                             <div v-for="(item, index) in listSingleMovie" :key="index"
-                                class="col-mobile col-md-4 col-lg-3 text-light mb-4 ">
+                                class="col-6 col-md-4 col-lg-3 text-light mb-4 ">
                                 <ItemMovie :movie="item" />
                             </div>
                         </div>
@@ -47,7 +47,7 @@
                                 </router-link>
                             </div>
                             <div v-for="(item, index) in listCartoon" :key="index"
-                                class="col-mobile col-md-4 col-lg-3 text-light  ">
+                                class="col-6 col-md-4 col-lg-3 text-light  ">
                                 <ItemMovie :movie="item" />
                             </div>
 
@@ -174,19 +174,23 @@ body {
     border-radius: 2px;
 }
 
-@media screen and (max-width: 413px) {
+
+@media screen and (min-width : 320px) and (max-width: 767px) {
     .carousel-cell {
         margin: 0 0.25rem;
         width: 50%;
         left: 4px !important;
     }
-    .col-mobile {
-        width: 50%;
-        margin-bottom: 1rem !important;
-    }
+
     .premovie {
         display: none;
     }
+}
+
+@media screen and (min-width : 992px) {
+    .col-lg-pc {
+    width: 20%;
+}
 }
 </style>
   

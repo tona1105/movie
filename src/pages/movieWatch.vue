@@ -5,7 +5,7 @@
                 <div style="height: 600px;" class="text-center">
                     <iframe :src=srcEp width="100%" height="100%" frameborder="0" allowfullscreen></iframe>
                 </div>
-                <div class="col-9">
+                <div class="col col-md-9 col-lg-9">
                     <!-- List episodes and movie's content -->
                     <h3>TẬP PHIM</h3>
                     <router-link class="btn btn-light mx-1 my-1" :class="{ 'active': item.slug === ep || item.slug === 'full' }"
@@ -20,7 +20,7 @@
                     </div>
 
                 </div>
-                <div class="col-3">
+                <div class="col-3 movie-pre">
                     <PreMovie />
                 </div>
             </div>
@@ -110,5 +110,13 @@ export default {
 .active {
     background-color: blue !important;
     color: white !important;
+}
+
+
+@media screen and (min-width: 312px) and (max-width: 716px) {
+    .movie-pre {
+        display: none;
+    }
+
 }
 </style>

@@ -2,61 +2,65 @@
     <DefaultLayout>
         <div class="container">
             <div class="row">
-                <div class="col-9">
+                <div class="col-sm col-md-9 col-lg-9">
                     <div>
                         <b-card no-body class="overflow-hidden">
                             <b-row no-gutters style="background-color: #111;">
-                                <b-col md="6" class="h-75">
+                                <div class="h-75 col-md-6">
                                     <b-card-img :src="movie.thumb_url" class="rounded-0 h-100"></b-card-img>
-                                    <router-link :to="{name: 'movie-watch', params: {slug: slug, ep: '1'}}" class="button">Xem ngay</router-link>
-                                </b-col>
-                                <b-col md="6" class="text-light">
+                                    <router-link :to="{ name: 'movie-watch', params: { slug: slug, ep: '1' } }"
+                                        class="button">Xem ngay</router-link>
+                                </div>
+                                <div class="text-light col-md-6 movie-detail">
                                     <h3 class="my-0">{{ movie.name }}</h3>
                                     <p>{{ movie.origin_name }}</p>
                                     <div>
                                         <p>Trạng thái: {{ movie.episode_current }} {{ movie.lang }}</p>
                                         <p>Thể loại:
-                                            <span v-for="(item, index) in category" :key="index" >
-                                                <router-link :to="{name: 'movie-list', params: {slug: item.slug, typeSlug: 'thể loại',name:item.name, type:'category'}}" class="ml-1 text-light category"  style="text-decoration: none;">
-                                                    {{ item.name }}
+                                            <span v-for="(item, index) in category" :key="index">
+                                                <router-link
+                                                    :to="{ name: 'movie-list', params: { slug: item.slug, typeSlug: 'thể loại', name: item.name, type: 'category' } }"
+                                                    class="ml-1 text-light category" style="text-decoration: none;">
+                                                    <span v-if="index !== category.length - 1"> {{ item.name }},</span>
+                                                    <span v-else> {{ item.name }}</span>
                                                 </router-link>
                                             </span>
                                             <!-- a -->
                                         </p>
                                     </div>
                                     <p>Đạo diễn:
-                                        <span class="ml-0" v-for="(item, index) in director" :key="index" >
+                                        <span class="ml-0" v-for="(item, index) in director" :key="index">
                                             <span v-if="index !== director.length - 1"> {{ item }},</span>
                                             <span v-else> {{ item }}</span>
                                         </span>
                                     </p>
                                     <p>Diễn viên:
-                                        <span v-for="(item, index) in actor" :key="index">
-                                            <span v-if="index !== actor.length - 1"> {{ item }},</span>
+                                        <span v-for="(item, index) in get5actor" :key="index">
+                                            <span v-if="index !== get5actor.length - 1"> {{ item }},</span>
                                             <span v-else> {{ item }}</span>
                                         </span>
-                                        
+
                                     </p>
-                                </b-col>
+                                </div>
                             </b-row>
                         </b-card>
                     </div>
                     <!-- Movie's content -->
-                    <div class="text-light mb-3" >
+                    <div class="text-light mb-3">
                         <h4 class="my-0 text-danger">Nội dung chi tiết</h4>
                         <h4>{{ movie.name }}</h4>
                         <span>{{ removePTag(movie.content) }}</span>
                     </div>
-                     <!-- List movie user may like to watch -->
-                     <div class="row">
+                    <!-- List movie user may like to watch -->
+                    <div class="row">
                         <h3 class="my-0 text-danger">Có thể bạn sẽ thích</h3>
-                        <div v-for="item in randomListNewMovie" :key="item.slug" class="col-3 my-2">
+                        <div v-for="item in randomListNewMovie" :key="item.slug" class="col-6 col-md-4 col-lg-3 my-2">
                             <ItemMovie :movie="item" />
                         </div>
                     </div>
                 </div>
-                <div class="col-3">
-                    <PreMovie/>
+                <div class="col-3 movie-pre">
+                    <PreMovie />
                 </div>
             </div>
         </div>
@@ -71,7 +75,7 @@ import DefaultLayout from '@/components/Default-layout.vue'
 export default {
     props: {
         slug: {
-            type: String,   
+            type: String,
             required: true
         },
     },
@@ -93,6 +97,9 @@ export default {
         randomListNewMovie() {
             const shuffledList = this.listNewMovie.sort(() => Math.random() - 0.5);
             return shuffledList
+        },
+        get5actor() {
+            return this.actor.slice(0, 4)
         }
     },
     async created() {
@@ -101,10 +108,10 @@ export default {
     },
     watch: {
         slug(newSlug) {
-      this.getMovieBySlug(newSlug);
-      document.documentElement.scrollTop = 0;
-    }
-  },
+            this.getMovieBySlug(newSlug);
+            document.documentElement.scrollTop = 0;
+        }
+    },
     methods: {
         removePTag(string) {
             if (string) {
@@ -147,10 +154,20 @@ export default {
     color: #fff;
     font-weight: 500;
 }
+
 .button:hover {
     cursor: pointer;
 }
+
 .category:hover {
     color: #00b8ff !important;
 }
-</style>
+
+@media screen and (min-width: 312px) and (max-width: 716px) {
+    .movie-pre {
+        display: none;
+    }
+    .movie-detail {
+        margin-left: 0.25rem;
+    }
+}</style>
