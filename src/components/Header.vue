@@ -266,7 +266,7 @@ export default {
         border: 1px solid #ccc;
     }
 
-    .search:hover .form-input {
+    .search:hover .form-input, .search:active .form-input {
         display: block !important;
         z-index: 1;
     }
@@ -294,7 +294,7 @@ export default {
         left: -0.75rem;
     }
 
-    .menu-bars:hover .header-menu {
+    .menu-bars:hover .header-menu, .menu-bars:active .header-menu {
         display: block;
     }
 
@@ -315,7 +315,7 @@ export default {
         justify-content: center !important;
     }
 
-    .search:hover .form-input {
+    .search:hover .form-input, .search:active .form-input  {
         display: block !important;
     }
     .menu-bars .fa-bars {
