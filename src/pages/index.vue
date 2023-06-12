@@ -7,8 +7,8 @@
                     <h3 class="text-light">PHIM ĐỀ XUẤT</h3>
                     <flickity v-if="Object.keys(random12inListMovie).length > 0" class="carousel" ref="flickity"
                         :options="flickityOptions">
-                        <div class="carousel-cell mx-md-2 col-md-4 col-lg-pc"
-                            v-for="(item, index) in random12inListMovie" :key="index" style="height: 300px;">
+                        <div class="carousel-cell mx-md-2 col-md-4 col-lg-pc" v-for="(item, index) in random12inListMovie"
+                            :key="index" style="height: 300px;">
                             <ItemMovie :movie="item" />
                         </div>
                     </flickity>
@@ -23,7 +23,7 @@
                             </div>
                             <div v-for="(item, index) in listSeriesMovie" :key="index"
                                 class="col-6 col-md-4 col-lg-3 text-light mb-4 ">
-                                <ItemMovie :movie="item" />
+                                <ItemMovie :movie="item" v-lazyload />
                             </div>
                         </div>
                         <div class="row">
@@ -35,7 +35,7 @@
                             </div>
                             <div v-for="(item, index) in listSingleMovie" :key="index"
                                 class="col-6 col-md-4 col-lg-3 text-light mb-4 ">
-                                <ItemMovie :movie="item" />
+                                <ItemMovie :movie="item" v-lazyload/>
                             </div>
                         </div>
                         <div class="row">
@@ -48,7 +48,7 @@
                             </div>
                             <div v-for="(item, index) in listCartoon" :key="index"
                                 class="col-6 col-md-4 col-lg-3 text-light  ">
-                                <ItemMovie :movie="item" />
+                                <ItemMovie :movie="item" v-lazyload />
                             </div>
 
                         </div>
@@ -72,6 +72,7 @@ import Flickity from 'vue-flickity';
 import DefaultLayout from '@/components/Default-layout.vue';
 import ItemMovie from '@/components/ItemMovie.vue'
 import axios from 'axios';
+import VueLazyload from 'vue-lazyload';
 export default {
     components: {
         DefaultLayout,
@@ -103,6 +104,9 @@ export default {
         await this.getListSeriesMovie()
         await this.getListSingleMovie()
         await this.getListCartoon()
+        Vue.use(VueLazyload, {
+            listenEvents: ['scroll'],
+        });
     },
     computed: {
         random12inListMovie() {
@@ -189,8 +193,8 @@ body {
 
 @media screen and (min-width : 992px) {
     .col-lg-pc {
-    width: 20%;
-}
+        width: 20%;
+    }
 }
 </style>
   

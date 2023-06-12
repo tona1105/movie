@@ -6170,6 +6170,11 @@
   "resolved" "https://registry.npmjs.org/vue-hot-reload-api/-/vue-hot-reload-api-2.3.4.tgz"
   "version" "2.3.4"
 
+"vue-lazyload@^3.0.0":
+  "integrity" "sha512-h2keL/Rj550dLgesgOtXJS9qOiSMmuJNeVlfNAYV1/IYwOQYaWk5mFJlwRxmZDK9YC5gECcFLYYj7z1lKSf9ug=="
+  "resolved" "https://registry.npmjs.org/vue-lazyload/-/vue-lazyload-3.0.0.tgz"
+  "version" "3.0.0"
+
 "vue-loader@^17.0.0":
   "integrity" "sha512-qpqEVkKdrAsgyIBMHaiXurDeCuBWqRyKqg2GI4aG3NbggEls+BLqTZdqahbJJh7fm83sz+iz3gg6eDWdbNlG7Q=="
   "resolved" "https://registry.npmjs.org/vue-loader/-/vue-loader-17.1.1.tgz"
