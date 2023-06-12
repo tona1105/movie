@@ -1,8 +1,8 @@
-import FilterMovie from './pages/FilterMovie.vue'
 import index from './pages/index.vue'
-import movieDetail from './pages/movieDetail'
-import movieWatch from './pages/movieWatch'
-import searchMovie from './pages/searchMovie'
+const filterMovie = () => import('./pages/FilterMovie.vue')
+const movieDetail = () => import('./pages/movieDetail.vue')
+const movieWatch = () => import('./pages/movieWatch.vue')
+const searchMovie = () => import('./pages/searchMovie.vue')
 export default [
     {
         path: '/',
@@ -23,7 +23,7 @@ export default [
     {
         path: '/danh-sach/:slug',
         name: 'movie-list',
-        component: FilterMovie,
+        component: filterMovie,
         props: true
     },
     {
